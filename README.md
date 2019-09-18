@@ -1,2 +1,2 @@
-# Dimension-Lamp-MOD-Demo
-Minecraft周边互动玩具模组示例
+# Dimension Lamp MOD
+Minecraft周边互动玩具模组
