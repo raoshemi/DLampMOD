@@ -1,9 +1,7 @@
 package com.mclans.mod.dlamp.runnable;
 
-import com.mclans.mod.dlamp.handler.AirKissHandler;
 import com.mclans.mod.dlamp.handler.DeviceDiscoverHandler;
 import com.mclans.mod.dlamp.protocol.ProtocolDecoder;
-import com.mclans.mod.dlamp.protocol.ProtocolEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
