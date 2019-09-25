@@ -1,0 +1,16 @@
+[
+{
+  "modid": "dlamp",
+  "name": "Dimension Lamp Mod",
+  "description": "Dimension Lamp Mod.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Dr.JIN"],
+  "credits": "The Forge and FML guys, for making this example",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
