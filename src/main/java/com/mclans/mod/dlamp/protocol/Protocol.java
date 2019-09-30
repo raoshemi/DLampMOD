@@ -19,8 +19,7 @@ public class Protocol {
         DISCOVER_RESPONSE(new byte[]{0x00, 0x00, 0x06}, DeviceDiscoverResponsePacket.class),
         HANDSHAKE(new byte[]{0x00, 0x00, 0x07}, HandshakePacket.class),
         HANDSHAKE_SUCCESS(new byte[]{0x00, 0x00, 0x08}, HandshakeSuccessPacket.class),
-        LOGIN(new byte[]{0x00, 0x00, 0x09}, LoginPacket.class),
-        LOGIN_SUCCESS(new byte[]{0x00, 0x00, 0x0a}, LoginSuccessPacket.class),
+        REMOTE_INFO(new byte[]{0x00, 0x00, 0x10}, RemoteInfoPacket.class),
         DATAPOINT_CHANGE(new byte[]{0x00, 0x00, 0x20}, DataPointChangePacket.class),
         PING(new byte[]{0x00, 0x00, 0x30}, PingPacket.class),
         PONG(new byte[]{0x00, 0x00, 0x31}, PongPacket.class),
@@ -60,12 +59,16 @@ public class Protocol {
     }
 
 
-    public static Packet createPacket(ByteBuf buf) throws ClassNotFoundException, IllegalAccessException, InstantiationException, UnsupportedEncodingException {
-        byte[] flag = Packet.readFlag(buf);
-        String s = Flag.getByFlag(flag).getPacketName().toString().replaceAll("class ", "");
-        Packet packet = (Packet) Class.forName(s).newInstance();
-        packet.read(buf);
-        return packet;
+    static Packet createPacket(ByteBuf buf) throws ClassNotFoundException, IllegalAccessException, InstantiationException, UnsupportedEncodingException {
+        byte[] flagBytes = Packet.readFlag(buf);
+        Flag flag = Flag.getByFlag(flagBytes);
+        if(flag != null) {
+            String s = flag.getPacketName().toString().replaceAll("class ", "");
+            Packet packet = (Packet) Class.forName(s).newInstance();
+            packet.read(buf);
+            return packet;
+        }
+        return null;
     }
 
     private static String byte2BinaryString(byte b) {

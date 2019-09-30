@@ -6,7 +6,6 @@ import io.netty.buffer.ByteBufUtil;
 import java.io.UnsupportedEncodingException;
 
 public class DeviceDiscoverResponsePacket extends Packet {
-    private String deviceId;
     private int firmwareVersion;
     private String mac;
     private String productKey;
@@ -14,8 +13,6 @@ public class DeviceDiscoverResponsePacket extends Packet {
     public void read(ByteBuf buf) throws UnsupportedEncodingException {
 
         int len = buf.readShort();
-        this.deviceId = readString(buf, len);
-        len = buf.readShort();
         byte[] b = new byte[len];
         buf.readBytes(b);
         this.mac = ByteBufUtil.hexDump(b);
@@ -25,9 +22,6 @@ public class DeviceDiscoverResponsePacket extends Packet {
 
     }
 
-    public String getDeviceId() {
-        return this.deviceId;
-    }
 
     public String getMac() {
         return this.mac;
