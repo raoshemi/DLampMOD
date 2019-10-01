@@ -17,11 +17,8 @@ public class DeviceConnector {
     private EventLoopGroup group = new NioEventLoopGroup();
     private Channel channel;
     private Bootstrap b;
-    private Device device;
-    private short relink;
 
     public DeviceConnector(Device device) {
-        this.device = device;
         b = new Bootstrap();
         b.option(ChannelOption.SO_KEEPALIVE, true);
         b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000);

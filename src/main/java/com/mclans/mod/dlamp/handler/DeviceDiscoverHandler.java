@@ -18,9 +18,10 @@ public class DeviceDiscoverHandler extends SimpleChannelInboundHandler<Packet> {
             String mac = packet.getMac();
             InetSocketAddress inetSocketAddress = (InetSocketAddress) ctx.channel().remoteAddress();
             String ip = inetSocketAddress.getAddress().getHostAddress();
-            if(!DLampManager.getDeviceMap().containsKey(mac)) {
+            if(!DLampManager.getDeviceMap().containsKey(ip)) {
                 Device device = new Device(mac, ip);
-                DLampManager.getDeviceMap().put(mac, device);
+                device.connect();
+                DLampManager.getDeviceMap().put(ip, device);
             }
         }
     }

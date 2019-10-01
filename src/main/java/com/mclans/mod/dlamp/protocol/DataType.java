@@ -1,7 +1,7 @@
 package com.mclans.mod.dlamp.protocol;
 
 public enum  DataType {
-    CONTROL(0x01), ALERT(0x02), SETUP(0x03);
+    CONTROL(0x01), ALERT(0x02), SETUP(0x03), CLEAR_CONTROL(0x04), CLEAR_ALERT(0x05);
     private int value;
     DataType(int value) {
         this.value = value;

@@ -4,10 +4,11 @@ import com.mclans.mod.dlamp.protocol.Protocol;
 import io.netty.buffer.ByteBuf;
 
 public class PowerSwitchPacket extends Packet {
-    private boolean isPowerOn;
+    public boolean isPowerOn;
     public PowerSwitchPacket(boolean isPowerOn) {
         this.isPowerOn = isPowerOn;
     }
+
     @Override
     public void read(ByteBuf buf) {
         this.isPowerOn = buf.readBoolean();
