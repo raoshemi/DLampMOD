@@ -1,7 +1,6 @@
 package com.mclans.mod.dlamp.runnable;
 
-import com.mclans.mod.dlamp.handler.AirKissHandler;
-import com.mclans.mod.dlamp.protocol.AirKissEncoder;
+import com.mclans.mod.dlamp.handler.AirkissHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -24,9 +23,9 @@ public class AirKissServer implements Runnable {
                     .channel(NioDatagramChannel.class)
                     .option(ChannelOption.SO_BROADCAST, true)
                     .handler(new ChannelInitializer<Channel>() {
-                        protected void initChannel(Channel channel) throws Exception {
+                        protected void initChannel(Channel channel) {
                             ChannelPipeline pipeline = channel.pipeline();
-                            pipeline.addLast(new AirKissHandler(randomChar));
+                            pipeline.addLast(new AirkissHandler(randomChar));
                         }
                     });
             b.bind(10000).sync().channel().closeFuture().await();

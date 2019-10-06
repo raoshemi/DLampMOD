@@ -2,6 +2,9 @@ package com.mclans.mod.dlamp.handler;
 
 import com.mclans.mod.dlamp.DLampManager;
 import com.mclans.mod.dlamp.data.Device;
+import com.mclans.mod.dlamp.event.AirkissSuccessedEvent;
+import com.mclans.mod.dlamp.event.DeviceConnectedEvent;
+import com.mclans.mod.dlamp.event.PowerSwitchedEvent;
 import com.mclans.mod.dlamp.protocol.DataType;
 import com.mclans.mod.dlamp.protocol.packet.DataPointChangePacket;
 import com.mclans.mod.dlamp.protocol.packet.HandshakePacket;
@@ -9,6 +12,7 @@ import com.mclans.mod.dlamp.protocol.packet.Packet;
 import com.mclans.mod.dlamp.protocol.packet.PowerSwitchPacket;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.net.InetSocketAddress;
 
@@ -21,14 +25,19 @@ public class DeviceHandler extends SimpleChannelInboundHandler<Packet> {
             switch (packetName) {
                 case "HandshakeSuccessPacket":
                     device.startPingService();
+
+                    MinecraftForge.EVENT_BUS.post(new DeviceConnectedEvent(device));
                     break;
                 case "PongPacket":
                     break;
                 case "PowerSwitchPacket":
                     PowerSwitchPacket powerSwitchPacket = (PowerSwitchPacket) msg;
                     device.isPowerOn = powerSwitchPacket.isPowerOn;
+
+                    MinecraftForge.EVENT_BUS.post(new PowerSwitchedEvent(device));
                     break;
                 case "DataPointChangePacket":
+                    // 目前用不到，主要需求是MOD发送设置包给设备，设备没有其他设置方式的需求。
                     DataPointChangePacket dataPointChangePacket = (DataPointChangePacket) msg;
                     if (dataPointChangePacket.getDataType().equals(DataType.SETUP)) {
                         device.setDataPoint(dataPointChangePacket.getDataPoint());
