@@ -18,34 +18,20 @@ public class ProtocolDecoder extends MessageToMessageDecoder<ByteBuf> {
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf buf, List<Object> list) throws Exception {
 
-
-            temp.writeBytes(buf);
-//            Utils.log("设备通讯数据：",temp);
-            if (length == 0) {
-                if (Packet.readHead(temp)) {
-                    length = Packet.readVarInt(temp);
-                    if (temp.readableBytes() >= length) {
-                        ByteBuf packet_data = temp.readBytes(length);
-                        length = 0;
-                        Packet packet = Protocol.createPacket(packet_data);
-                        if (packet != null) {
-                            list.add(packet);
-                        }
-//                        Utils.log("获得的包名为: ", packet.getClass().getName());
-                    }
-                }
-            } else {
-                if (temp.readableBytes() >= length) {
-                    ByteBuf packet_data = temp.readBytes(length);
-                    length = 0;
-                    Packet packet = Protocol.createPacket(packet_data);
-                    if (packet != null) {
-                        list.add(packet);
-                    }
-//                    Utils.log("获得的粘包名为: ", packet.getClass().getName());
-                }
+        temp.writeBytes(buf);
+        if (length == 0) {
+            if (Packet.readHead(temp)) {
+                length = Packet.readVarInt(temp);
             }
-
+        }
+        if (temp.readableBytes() >= length) {
+            ByteBuf packet_data = temp.readBytes(length);
+            length = 0;
+            Packet packet = Protocol.createPacket(packet_data);
+            if (packet != null) {
+                list.add(packet);
+            }
+        }
     }
 
     @Override

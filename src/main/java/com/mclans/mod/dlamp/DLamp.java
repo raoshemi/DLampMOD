@@ -13,10 +13,10 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.Logger;
 @Mod(modid = DLamp.MODID, name = DLamp.NAME, version = DLamp.VERSION)
 public class DLamp {
-    static final String MODID = "dlampmod";
+    static final String MODID = "dlamp";
     static final String NAME = "Dimension Lamp Mod";
     static final String VERSION = "1.0";
-    private static FMLEventChannel networkEvent = NetworkRegistry.INSTANCE.newEventDrivenChannel("DLamp");
+    static FMLEventChannel networkEvent = NetworkRegistry.INSTANCE.newEventDrivenChannel("DLamp");
     private static Logger logger;
 
     @Mod.EventHandler

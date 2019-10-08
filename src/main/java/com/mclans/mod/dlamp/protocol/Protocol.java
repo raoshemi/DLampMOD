@@ -1,9 +1,9 @@
 package com.mclans.mod.dlamp.protocol;
 
-import com.mclans.mod.dlamp.data.DataPoint;
 import com.mclans.mod.dlamp.protocol.packet.*;
+import com.mclans.mod.dlamp.protocol.packet.plugin.RemoteRequestPacket;
+import com.mclans.mod.dlamp.protocol.packet.plugin.RemoteResponsePacket;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
@@ -21,9 +21,11 @@ public class Protocol {
         HANDSHAKE_SUCCESS(new byte[]{0x00, 0x00, 0x08}, HandshakeSuccessPacket.class),
         REMOTE_INFO(new byte[]{0x00, 0x00, 0x10}, RemoteInfoPacket.class),
         DATAPOINT_CHANGE(new byte[]{0x00, 0x00, 0x20}, DataPointChangePacket.class),
+        POWER_SWITCH(new byte[]{0x00, 0x00, 0x21}, PowerSwitchPacket.class),
         PING(new byte[]{0x00, 0x00, 0x30}, PingPacket.class),
         PONG(new byte[]{0x00, 0x00, 0x31}, PongPacket.class),
-        POWER_SWITCH(new byte[]{0x00, 0x00, 0x40}, PowerSwitchPacket.class);
+        REMOTE_REQUEST(new byte[]{0x00, 0x00, 0x40}, RemoteRequestPacket.class),
+        REMOTE_RESPONSE(new byte[]{0x00, 0x00, 0x41}, RemoteResponsePacket .class);
         private byte[] flag;
         private Class packetname;
 
@@ -59,7 +61,7 @@ public class Protocol {
     }
 
 
-    static Packet createPacket(ByteBuf buf) throws ClassNotFoundException, IllegalAccessException, InstantiationException, UnsupportedEncodingException {
+    public static Packet createPacket(ByteBuf buf) throws ClassNotFoundException, IllegalAccessException, InstantiationException, UnsupportedEncodingException {
         byte[] flagBytes = Packet.readFlag(buf);
         Flag flag = Flag.getByFlag(flagBytes);
         if(flag != null) {

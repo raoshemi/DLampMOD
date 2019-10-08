@@ -5,20 +5,24 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 
+import javax.annotation.Nonnull;
+
 // 帮助等信息
 public class DLampCommand extends CommandBase {
+    @Nonnull
     @Override
     public String getName() {
         return "dlamp";
     }
 
+    @Nonnull
     @Override
-    public String getUsage(ICommandSender sender) {
+    public String getUsage(@Nonnull ICommandSender sender) {
         return "次元矿灯命令";
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
+    public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, String[] args) {
         if(args.length == 0) {
             // TODO: 显示help
             sender.sendMessage(new TextComponentString("§e欢迎使用【次元矿灯】"));

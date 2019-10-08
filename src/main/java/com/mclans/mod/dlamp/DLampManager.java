@@ -1,10 +1,15 @@
 package com.mclans.mod.dlamp;
 
 import com.mclans.mod.dlamp.data.Device;
+import com.mclans.mod.dlamp.protocol.packet.plugin.RemoteRequestPacket;
 import com.mclans.mod.dlamp.runnable.AirKissBroadcast;
 import com.mclans.mod.dlamp.runnable.AirKissServer;
 import com.mclans.mod.dlamp.runnable.DeviceDiscoverBroadcast;
 import com.mclans.mod.dlamp.runnable.DeviceDiscoverServer;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -34,6 +39,13 @@ public class DLampManager {
     }
     public static void stopDiscover() {
         discoverService.shutdown();
+    }
+    public static void remoteRequest(Device device) {
+        ByteBuf buf = Unpooled.buffer();
+        RemoteRequestPacket packet = new RemoteRequestPacket(device);
+        packet.write(buf);
+        FMLProxyPacket fmlProxyPacket = new FMLProxyPacket(new PacketBuffer(buf), "DLamp");
+        DLamp.networkEvent.sendToServer(fmlProxyPacket);
     }
     public static ConcurrentHashMap<String, Device> getDeviceMap() {
         return deviceMap;
